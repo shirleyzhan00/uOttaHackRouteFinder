@@ -1,67 +1,139 @@
 import React, { useState } from "react";
-import { Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Button, Box } from "@mui/material";
-import LocalPhoneIcon from '@mui/icons-material/LocalPhone';
-import LocationOnIcon from '@mui/icons-material/LocationOn';
-import AccessTimeIcon from '@mui/icons-material/AccessTime';
+import {
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogContentText,
+  DialogActions,
+  Button,
+  Box,
+  Typography,
+  Card,
+  CardContent
+} from "@mui/material";
+import LocalPhoneIcon from "@mui/icons-material/LocalPhone";
+import LocationOnIcon from "@mui/icons-material/LocationOn";
+import AccessTimeIcon from "@mui/icons-material/AccessTime";
 
 const EvStation = () => {
-    const evStationInfo = {name : 'station one', address: 'Bikini Bottom', connectionInfo: [{name: 'connectionName', plugs: [{name: "plug1", charge :'50kW'},{name: "plug1", charge :'50kW'} ]
-    }], image: "url", phoneNumber: '123456789', openingHours: '6:00AM - 9:00PM',  }
-    const [modalOpen, setModalOpen] = useState(false);
+  const evStationInfo = {
+    name: "station one",
+    address: "Bikini Bottom",
 
-    const handleClick = () => {
-        setModalOpen(true);
-    }
-    
-    const handleClose = () => {
-        setModalOpen(false);
-    }
-    return (
-        <Box>
- 
-                <Button variant="outlined" onClick={handleClick}>open me</Button>
-          
-        <Dialog
+    chargingConnections: [
+      {
+        facilityType: "Charge_380_to_480V_3_Phase_at_32A",
+        plugType: "NEMA_5_20",
+      },
+      {
+        facilityType: "Charge_Direct_Current_at_50kW",
+        plugType: "IEC_62196_Type_2_Outlet",
+      },
+    ],
+    image: "url",
+    phoneNumber: "123456789",
+    openingHours: "6:00AM - 9:00PM",
+  };
+  const [modalOpen, setModalOpen] = useState(false);
+
+  const handleClick = () => {
+    setModalOpen(true);
+  };
+
+  const handleClose = () => {
+    setModalOpen(false);
+  };
+  return (
+    <Box style={{ display: "flex" }}>
+      <Button variant="outlined" onClick={handleClick}>
+        open me
+      </Button>
+
+      <Dialog
         hideBackdrop
         disableEnforceFocus
-        style={{ position: 'initial', width : "300px" }}
+        style={{ position: "initial", width: "400px" }}
         open={modalOpen}
         aria-labelledby="dialog-title"
         disableBackdropClick
         disableScrollLock={true}
-       
       >
-       <img
-      style={{ maxWidth: "200px", maxHeight: '150px'}}
-      src="https://images.unsplash.com/photo-1565992441121-4367c2967103"
-      alt="station"
-    />
+        <img
+          style={{ maxWidth: "200px", maxHeight: "150px" }}
+          src="https://images.unsplash.com/photo-1565992441121-4367c2967103"
+          alt="station"
+        />
         <DialogTitle id="Ev-station-title">{evStationInfo.name}</DialogTitle>
         <DialogContent>
-          <DialogContentText style={{ display: 'flex', alignItems: 'center', marginBottom: '10px'  }}>
-          <LocationOnIcon style={{ marginRight: '5px'}} />
+          <DialogContentText
+            style={{
+              display: "flex",
+              alignItems: "center",
+              marginBottom: "10px",
+            }}
+          >
+            <LocationOnIcon style={{ marginRight: "5px" }} />
             {evStationInfo.address}
           </DialogContentText>
 
-          <DialogContentText style={{ display: 'flex', alignItems: 'center', marginBottom: '10px'  }}>
-    <LocalPhoneIcon style={{ marginRight: '5px' }} />
-    {evStationInfo.phoneNumber}
-</DialogContentText>
+          <DialogContentText
+            style={{
+              display: "flex",
+              alignItems: "center",
+              marginBottom: "10px",
+            }}
+          >
+            <LocalPhoneIcon style={{ marginRight: "5px" }} />
+            {evStationInfo.phoneNumber}
+          </DialogContentText>
 
-          <DialogContentText style={{ display: 'flex', alignItems: 'center', marginBottom: '10px'  }}>
-          <AccessTimeIcon style = {{marginRight: '5px'}}/>
+          <DialogContentText
+            style={{
+              display: "flex",
+              alignItems: "center",
+              marginBottom: "10px",
+            }}
+          >
+            <AccessTimeIcon style={{ marginRight: "5px" }} />
             {evStationInfo.openingHours}
           </DialogContentText>
         </DialogContent>
+        <DialogTitle>Connection Information</DialogTitle>
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            overflowX: "auto",
+          }}
+        >
+          {evStationInfo.chargingConnections.map((connection, index) => (
+            <Card key={index} style={{ margin: "10px", }}>
+              <CardContent>
+                <Typography variant="h6" component="div">
+                  Facility Type
+                </Typography>
+                <Typography variant="body2" color="text.secondary">
+                  {connection.facilityType}
+                </Typography>
+                <Typography variant="h6" component="div" style={{ marginTop: "10px" }}>
+                  Plug Type
+                </Typography>
+                <Typography variant="body2" color="text.secondary">
+                  {connection.plugType}
+                </Typography>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+
         <DialogActions>
           <Button onClick={handleClose} color="primary">
             Close
           </Button>
-          
         </DialogActions>
       </Dialog>
-      </Box>
-    )
-}
+    </Box>
+  );
+};
 
 export default EvStation;
