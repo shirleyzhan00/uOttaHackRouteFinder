@@ -9,7 +9,7 @@ import {
   Box,
   Typography,
   Card,
-  CardContent
+  CardContent,
 } from "@mui/material";
 import LocalPhoneIcon from "@mui/icons-material/LocalPhone";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
@@ -19,7 +19,7 @@ const EvStation = () => {
   const evStationInfo = {
     name: "station one",
     address: "Bikini Bottom",
-
+    chargingStationLocation: {"latitude" : 0.6666667, "longitude" : -33.3333333},
     chargingConnections: [
       {
         facilityType: "Charge_380_to_480V_3_Phase_at_32A",
@@ -59,7 +59,7 @@ const EvStation = () => {
         disableScrollLock={true}
       >
         <img
-          style={{ maxWidth: "200px", maxHeight: "150px" }}
+          style={{ width: "100%", maxHeight: "150px", objectFit: "cover" }}
           src="https://images.unsplash.com/photo-1565992441121-4367c2967103"
           alt="station"
         />
@@ -99,32 +99,31 @@ const EvStation = () => {
           </DialogContentText>
         </DialogContent>
         <DialogTitle>Connection Information</DialogTitle>
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "row",
-            overflowX: "auto",
-          }}
-        >
+
+        <Box style={{ width: "300px", maxHeight: "200px", overflowY: "auto" }}>
           {evStationInfo.chargingConnections.map((connection, index) => (
-            <Card key={index} style={{ margin: "10px", }}>
+            <Card key={index} style={{ margin: "10px" }}>
               <CardContent>
                 <Typography variant="h6" component="div">
                   Facility Type
                 </Typography>
                 <Typography variant="body2" color="text.secondary">
-                  {connection.facilityType}
+                  {connection.facilityType.replace(/_/g, " ")}
                 </Typography>
-                <Typography variant="h6" component="div" style={{ marginTop: "10px" }}>
+                <Typography
+                  variant="h6"
+                  component="div"
+                  style={{ marginTop: "10px" }}
+                >
                   Plug Type
                 </Typography>
                 <Typography variant="body2" color="text.secondary">
-                  {connection.plugType}
+                  {connection.plugType.replace(/_/g, " ")}
                 </Typography>
               </CardContent>
             </Card>
           ))}
-        </div>
+        </Box>
 
         <DialogActions>
           <Button onClick={handleClose} color="primary">
