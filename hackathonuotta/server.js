@@ -25,6 +25,21 @@ app.get("/place-details", async (req, res) => {
   }
 });
 
+app.get("/route", async (req, res) => {
+    try {
+      const { sourceLat, sourceLng, destLat, destLng } = req.query;
+  
+      const response = await axios.get(
+        `https://maps.googleapis.com/maps/api/directions/json?origin=${sourceLat},${sourceLng}&destination=${destLat},${destLng}&key=${apiKey}`
+      );
+      res.json(response.data);
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({ error: "Internal Server Error" });
+    }
+  });
+
+
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);
 });

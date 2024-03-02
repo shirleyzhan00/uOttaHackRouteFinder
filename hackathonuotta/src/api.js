@@ -27,15 +27,13 @@ const getPlaceDetails = async (latlng) => {
   );
   console.log("place", placeResponse);
 
-  const address =
-    placeResponse.data.result.formatted_address 
-      ? placeResponse.data.result.formatted_address
-      : null;
+  const address = placeResponse.data.result.formatted_address
+    ? placeResponse.data.result.formatted_address
+    : null;
 
-  const name =
-    placeResponse.data.result.name 
-      ? placeResponse.data.result.name
-      : null;
+  const name = placeResponse.data.result.name
+    ? placeResponse.data.result.name
+    : null;
 
   let photoUrl = null;
   if (placeResponse.data.result.photos) {
@@ -43,15 +41,13 @@ const getPlaceDetails = async (latlng) => {
     photoUrl = `https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=${photoReference}&key=${apiKey}`;
   }
 
-  let phoneNumber =
-    placeResponse.data.result.formatted_phone_number
-      ? placeResponse.data.result.formatted_phone_number
-      : null
+  let phoneNumber = placeResponse.data.result.formatted_phone_number
+    ? placeResponse.data.result.formatted_phone_number
+    : null;
 
-  let openingHours =
-    placeResponse.data.result.opening_hours?.weekday_text 
-      ? placeResponse.data.result.opening_hours.weekday_text
-      : null;
+  let openingHours = placeResponse.data.result.opening_hours?.weekday_text
+    ? placeResponse.data.result.opening_hours.weekday_text
+    : null;
 
   const placeDetails = {
     address: address,
@@ -63,4 +59,19 @@ const getPlaceDetails = async (latlng) => {
   return placeDetails;
 };
 
-export { getPlaceDetails };
+const getRouteInfo = async (sourceLat, sourceLng, destLat, destLng) => {
+  try {
+    const response = await axios.get(
+      `http://localhost:3001/route?sourceLat=${sourceLat}&sourceLng=${sourceLng}&destLat=${destLat}&destLng=${destLng}`
+    );
+    console.log("route", response);
+    const routeData = {
+      distanceMeters: response.data.routes[0].distance.value,
+      timeHour: response.data.routes[0].duration.value / 3600,
+    };
+    return routeData;
+  } catch (err) {
+    console.error(err);
+  }
+};
+export { getPlaceDetails, getRouteInfo };

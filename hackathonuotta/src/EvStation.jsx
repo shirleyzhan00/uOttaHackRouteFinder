@@ -15,27 +15,14 @@ import LocalPhoneIcon from "@mui/icons-material/LocalPhone";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 
-import { getPlaceDetails } from "./api";
+import { getPlaceDetails, getRouteInfo } from "./api";
 
 const EvStation = () => {
   const evStationInfo = {
     chargingStationLocation: {
-      latitude: 45.42985933703672,
-      longitude: -75.69133986882008,
+      latitude: 45.42202882338327,
+      longitude:  -75.69767989999454
     },
-    chargingConnections: [
-      {
-        facilityType: "Charge_380_to_480V_3_Phase_at_32A",
-        plugType: "NEMA_5_20",
-      },
-      {
-        facilityType: "Charge_Direct_Current_at_50kW",
-        plugType: "IEC_62196_Type_2_Outlet",
-      },
-    ],
-    image: "url",
-    phoneNumber: "123456789",
-    openingHours: "6:00AM - 9:00PM",
   };
 
   const [modalOpen, setModalOpen] = useState(false);
@@ -63,6 +50,8 @@ const EvStation = () => {
         placeDetails.openingHours[(todayDate.getDay() + 6) % 7]
       );
     }
+
+    getRouteInfo(45.42202882338327, -75.69767989999454, 45.42542224499664, -75.68866422246816 );
     setModalOpen(true);
   };
 
@@ -133,9 +122,9 @@ const EvStation = () => {
             </DialogContentText>
           )}
         </DialogContent>
-        <DialogTitle>Connection Information</DialogTitle>
-
-        <Box style={{ width: "300px", maxHeight: "200px", overflowY: "auto" }}>
+        <DialogTitle>Trip Information</DialogTitle>
+              <DialogContent>You still have {} of range left</DialogContent>
+        {/* <Box style={{ width: "300px", maxHeight: "200px", overflowY: "auto" }}>
           {evStationInfo.chargingConnections.map((connection, index) => (
             <Card key={index} style={{ margin: "10px" }}>
               <CardContent>
@@ -158,7 +147,7 @@ const EvStation = () => {
               </CardContent>
             </Card>
           ))}
-        </Box>
+        </Box> */}
 
         <DialogActions>
           <Button onClick={handleClose} color="primary">
