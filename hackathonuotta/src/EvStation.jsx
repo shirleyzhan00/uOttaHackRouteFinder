@@ -15,11 +15,13 @@ import LocalPhoneIcon from "@mui/icons-material/LocalPhone";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 
+import { getPlaceDetails, getPlacePhoto } from "./api";
+
 const EvStation = () => {
   const evStationInfo = {
     name: "station one",
     address: "Bikini Bottom",
-    chargingStationLocation: {"latitude" : 0.6666667, "longitude" : -33.3333333},
+    chargingStationLocation: {"latitude" : 45.38356442278938, "longitude" :  -75.69799314835268},
     chargingConnections: [
       {
         facilityType: "Charge_380_to_480V_3_Phase_at_32A",
@@ -34,9 +36,23 @@ const EvStation = () => {
     phoneNumber: "123456789",
     openingHours: "6:00AM - 9:00PM",
   };
-  const [modalOpen, setModalOpen] = useState(false);
 
-  const handleClick = () => {
+
+  const [modalOpen, setModalOpen] = useState(false);
+  const [stationPhoto, setStationPhoto] = useState(null);
+
+  const handleClick = async () => {
+    const latlng = evStationInfo.chargingStationLocation.latitude + ',' + evStationInfo.chargingStationLocation.longitude;
+    
+    const placeDetails = await getPlaceDetails(
+      latlng
+    );
+    console.log('place', placeDetails)
+
+    // const photoReference =
+    //   placeDetails.results[0].photos[0].photo_reference;
+    // const photoData = await getPlacePhoto(photoReference);
+    // setStationPhoto(photoData);
     setModalOpen(true);
   };
 
@@ -58,11 +74,17 @@ const EvStation = () => {
         disableBackdropClick
         disableScrollLock={true}
       >
-        <img
-          style={{ width: "100%", maxHeight: "150px", objectFit: "cover" }}
-          src="https://images.unsplash.com/photo-1565992441121-4367c2967103"
-          alt="station"
-        />
+         {/* {stationPhoto && (
+          <img
+            style={{
+              width: "100%",
+              maxHeight: "150px",
+              objectFit: "cover",
+            }}
+            src={stationPhoto}
+            alt="station"
+          />
+        )} */}
         <DialogTitle id="Ev-station-title">{evStationInfo.name}</DialogTitle>
         <DialogContent>
           <DialogContentText
