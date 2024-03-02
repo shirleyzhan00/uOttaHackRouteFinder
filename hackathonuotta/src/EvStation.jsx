@@ -15,13 +15,14 @@ import LocalPhoneIcon from "@mui/icons-material/LocalPhone";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 
-import { getPlaceDetails, getPlacePhoto } from "./api";
+import { getPlaceDetails } from "./api";
 
 const EvStation = () => {
   const evStationInfo = {
-    name: "station one",
-    address: "Bikini Bottom",
-    chargingStationLocation: {"latitude" : 45.38356442278938, "longitude" :  -75.69799314835268},
+    chargingStationLocation: {
+      latitude: 45.42985933703672,
+      longitude: -75.69133986882008,
+    },
     chargingConnections: [
       {
         facilityType: "Charge_380_to_480V_3_Phase_at_32A",
@@ -37,22 +38,31 @@ const EvStation = () => {
     openingHours: "6:00AM - 9:00PM",
   };
 
-
   const [modalOpen, setModalOpen] = useState(false);
   const [stationPhoto, setStationPhoto] = useState(null);
+  const [address, setAddress] = useState(null);
+  const [stationName, setStationName] = useState(null);
+  const [stationPhoneNumber, setStationPhoneNumber] = useState(null);
+  const [stationOpeningHours, setStationOpeningHours] = useState(null);
 
   const handleClick = async () => {
-    const latlng = evStationInfo.chargingStationLocation.latitude + ',' + evStationInfo.chargingStationLocation.longitude;
-    
-    const placeDetails = await getPlaceDetails(
-      latlng
-    );
-    console.log('place', placeDetails)
+    const latlng =
+      evStationInfo.chargingStationLocation.latitude +
+      "," +
+      evStationInfo.chargingStationLocation.longitude;
 
-    // const photoReference =
-    //   placeDetails.results[0].photos[0].photo_reference;
-    // const photoData = await getPlacePhoto(photoReference);
-    // setStationPhoto(photoData);
+    const placeDetails = await getPlaceDetails(latlng);
+
+    setStationName(placeDetails.name);
+    setStationPhoto(placeDetails.photo);
+    setAddress(placeDetails.address);
+    setStationPhoneNumber(placeDetails.phoneNumber);
+    if (placeDetails.openingHours) {
+      const todayDate = new Date();
+      setStationOpeningHours(
+        placeDetails.openingHours[(todayDate.getDay() + 6) % 7]
+      );
+    }
     setModalOpen(true);
   };
 
@@ -74,7 +84,7 @@ const EvStation = () => {
         disableBackdropClick
         disableScrollLock={true}
       >
-         {/* {stationPhoto && (
+        {stationPhoto && (
           <img
             style={{
               width: "100%",
@@ -84,8 +94,8 @@ const EvStation = () => {
             src={stationPhoto}
             alt="station"
           />
-        )} */}
-        <DialogTitle id="Ev-station-title">{evStationInfo.name}</DialogTitle>
+        )}
+        <DialogTitle id="Ev-station-title">{stationName}</DialogTitle>
         <DialogContent>
           <DialogContentText
             style={{
@@ -95,30 +105,33 @@ const EvStation = () => {
             }}
           >
             <LocationOnIcon style={{ marginRight: "5px" }} />
-            {evStationInfo.address}
+            {address}
           </DialogContentText>
+          {stationPhoneNumber && (
+            <DialogContentText
+              style={{
+                display: "flex",
+                alignItems: "center",
+                marginBottom: "10px",
+              }}
+            >
+              <LocalPhoneIcon style={{ marginRight: "5px" }} />
+              {stationPhoneNumber}
+            </DialogContentText>
+          )}
 
-          <DialogContentText
-            style={{
-              display: "flex",
-              alignItems: "center",
-              marginBottom: "10px",
-            }}
-          >
-            <LocalPhoneIcon style={{ marginRight: "5px" }} />
-            {evStationInfo.phoneNumber}
-          </DialogContentText>
-
-          <DialogContentText
-            style={{
-              display: "flex",
-              alignItems: "center",
-              marginBottom: "10px",
-            }}
-          >
-            <AccessTimeIcon style={{ marginRight: "5px" }} />
-            {evStationInfo.openingHours}
-          </DialogContentText>
+          {stationOpeningHours && (
+            <DialogContentText
+              style={{
+                display: "flex",
+                alignItems: "center",
+                marginBottom: "10px",
+              }}
+            >
+              <AccessTimeIcon style={{ marginRight: "5px" }} />
+              {stationOpeningHours}
+            </DialogContentText>
+          )}
         </DialogContent>
         <DialogTitle>Connection Information</DialogTitle>
 
