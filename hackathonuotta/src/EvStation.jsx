@@ -7,9 +7,6 @@ import {
   DialogActions,
   Button,
   Box,
-  Typography,
-  Card,
-  CardContent,
 } from "@mui/material";
 import LocalPhoneIcon from "@mui/icons-material/LocalPhone";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
@@ -21,7 +18,7 @@ const EvStation = () => {
   const evStationInfo = {
     chargingStationLocation: {
       latitude: 45.42202882338327,
-      longitude:  -75.69767989999454
+      longitude: -75.69767989999454,
     },
   };
 
@@ -51,7 +48,12 @@ const EvStation = () => {
       );
     }
 
-    getRouteInfo(45.42202882338327, -75.69767989999454, 45.42542224499664, -75.68866422246816 );
+    getRouteInfo(
+      45.42202882338327,
+      -75.69767989999454,
+      45.42542224499664,
+      -75.68866422246816
+    );
     setModalOpen(true);
   };
 
@@ -67,7 +69,13 @@ const EvStation = () => {
       <Dialog
         hideBackdrop
         disableEnforceFocus
-        style={{ position: "initial", width: "400px" }}
+        style={{
+          position: "absolute",
+          right: 0,
+          top: 0,
+          width: "400px",
+          transform: "translateY(0)",
+        }}
         open={modalOpen}
         aria-labelledby="dialog-title"
         disableBackdropClick
@@ -123,31 +131,7 @@ const EvStation = () => {
           )}
         </DialogContent>
         <DialogTitle>Trip Information</DialogTitle>
-              <DialogContent>You still have {} of range left</DialogContent>
-        {/* <Box style={{ width: "300px", maxHeight: "200px", overflowY: "auto" }}>
-          {evStationInfo.chargingConnections.map((connection, index) => (
-            <Card key={index} style={{ margin: "10px" }}>
-              <CardContent>
-                <Typography variant="h6" component="div">
-                  Facility Type
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  {connection.facilityType.replace(/_/g, " ")}
-                </Typography>
-                <Typography
-                  variant="h6"
-                  component="div"
-                  style={{ marginTop: "10px" }}
-                >
-                  Plug Type
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  {connection.plugType.replace(/_/g, " ")}
-                </Typography>
-              </CardContent>
-            </Card>
-          ))}
-        </Box> */}
+        <DialogContent>You still have {} of range left</DialogContent>
 
         <DialogActions>
           <Button onClick={handleClose} color="primary">

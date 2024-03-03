@@ -1,5 +1,19 @@
 .App {
-  text-align: center;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.LeftPanel {
+  flex: 1;
+  padding: 0 20px;
+  max-width: 50%;
+}
+
+.RightPanel {
+  flex: 1;
+  padding: 0 20px;
+  max-width: 50%;
 }
 
 .App-logo {
