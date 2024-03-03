@@ -15,6 +15,13 @@
   padding: 0 20px;
   max-width: 50%;
 }
+.EvStationDialog {
+  position: fixed;
+  top: 0;
+  right: 0;
+  margin: 20px;
+  max-width: 400px; 
+}
 
 .App-logo {
   height: 40vmin;

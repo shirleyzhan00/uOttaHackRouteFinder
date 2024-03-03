@@ -48,30 +48,30 @@ const EvStation = ({
         );
       }
 
-      const carInfoIndex = carInformation.findIndex(
-        (car) => car.modelName === carModel
-      );
-      console.log("arr", carInfoIndex, carModel);
+      if (carModel) {
+        const carInfoIndex = carInformation.findIndex(
+          (car) => car.modelName === carModel
+        );
+        const batteryCapacity = carInformation[carInfoIndex].batteryCapacity;
+        const powerOutput = carInformation[carInfoIndex].powerOutput;
+        const routeInfo = await getRouteInfo(
+          sourceLat,
+          sourceLng,
+          destLat,
+          destLng
+        );
 
-      const batteryCapacity = carInformation[carInfoIndex].batteryCapacity;
-      const powerOutput = carInformation[carInfoIndex].powerOutput;
-      const routeInfo = await getRouteInfo(
-        sourceLat,
-        sourceLng,
-        destLat,
-        destLng
-      );
+        const currentRange = batteryCapacity * powerOutput * (percentage / 100);
+        const justDrivingJourney = routeInfo.timeHour * powerOutput;
+        let totalRangeConsumed = justDrivingJourney;
 
-      const currentRange = batteryCapacity * powerOutput * (percentage / 100);
-      const justDrivingJourney = routeInfo.timeHour * powerOutput;
-      let totalRangeConsumed = justDrivingJourney;
-
-      if (temperature === "Hot") {
-        totalRangeConsumed += 0.125 * 5;
-      } else if (temperature === "Cold") {
-        totalRangeConsumed += 0.095 * 5;
+        if (temperature === "Hot") {
+          totalRangeConsumed += 0.125 * 5;
+        } else if (temperature === "Cold") {
+          totalRangeConsumed += 0.095 * 5;
+        }
+        setRemainingRange(currentRange - totalRangeConsumed);
       }
-      setRemainingRange(currentRange - totalRangeConsumed);
 
       setModalOpen(true);
     };
@@ -146,8 +146,8 @@ const EvStation = ({
         )}
         {remainingRange && (
           <DialogContentText>
-            You will have {remainingRange.toFixed(2)}km
-            of range left when you reach here
+            You will have {remainingRange.toFixed(2)}km of range left when you
+            reach here
           </DialogContentText>
         )}
       </DialogContent>

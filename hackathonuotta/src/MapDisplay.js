@@ -137,7 +137,7 @@ const MapDisplay = ({ sourceAddress, destAddress, temperature, carModel, percent
           {
             location: point,
             radius: 100,
-            keyword: "charging",
+            keyword: "electric charging station",
           },
           (results, status) => {
             if (status === window.google.maps.places.PlacesServiceStatus.OK) {
@@ -149,7 +149,33 @@ const MapDisplay = ({ sourceAddress, destAddress, temperature, carModel, percent
                     url: "http://maps.google.com/mapfiles/ms/icons/green-dot.png",
                   },
                 });
-
+  
+                marker.addListener("click", () => {
+                  setClickedMarker(point);
+                });
+              });
+            }
+          }
+        );
+  
+        // Search for electric vehicle maintenance places
+        service.nearbySearch(
+          {
+            location: point,
+            radius: 100,
+            keyword: "electric vehicle maintenance",
+          },
+          (results, status) => {
+            if (status === window.google.maps.places.PlacesServiceStatus.OK) {
+              results.forEach((place) => {
+                const marker = new window.google.maps.Marker({
+                  position: point,
+                  map: map,
+                  icon: {
+                    url: "http://maps.google.com/mapfiles/ms/icons/blue-dot.png",
+                  },
+                });
+  
                 marker.addListener("click", () => {
                   setClickedMarker(point);
                 });
@@ -163,7 +189,7 @@ const MapDisplay = ({ sourceAddress, destAddress, temperature, carModel, percent
 
   return (
     <>
-      <div id="map" style={{ height: "400px", width: "100%" }}></div>
+      <div id="map" style={{ height: "400px", width: "100%",flexDirection: 'row-reverse' }}></div>
       {clickedMarker && sourceMarker && (
         <EvStation
           destLat={clickedMarker.lat()}
