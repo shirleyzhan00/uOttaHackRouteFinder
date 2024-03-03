@@ -15,11 +15,10 @@ function App() {
           setSourceAddress={setSourceAddress}
           setDestAddress={setDestAddress}
         />
-        <MapDisplay sourceAddress={sourceAddress} destAddress={destAddress} />
+        
       </div>
-      <div className="RightPanel">
-        <EvStation />
-      </div>
+      <div className="RightPanel"><MapDisplay sourceAddress={sourceAddress} destAddress={destAddress} /></div>
+     
     </div>
   );
 }

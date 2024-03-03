@@ -18,9 +18,10 @@ const getPlaceDetails = async (latlng) => {
     }
   }
 
-  if (place_id === null) {
+  if (!place_id) {
     place_id = addressResponse.data.results[0].place_id;
   }
+  console.log('place_id', place_id)
 
   const placeResponse = await axios.get(
     `http://localhost:3001/place-details?place_id=${place_id}`

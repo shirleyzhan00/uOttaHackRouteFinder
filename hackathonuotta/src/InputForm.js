@@ -63,9 +63,7 @@ const InputForm = ({ setSourceAddress, setDestAddress }) => {
                 value={destLocation}
                 onChange={handleDestLocationChange}
             />
-            <Button variant="contained" onClick={() => console.log("Submit")}>
-                Enter
-            </Button>
+            
         </Box>
     );
 };

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Dialog,
   DialogTitle,
@@ -12,16 +12,9 @@ import LocalPhoneIcon from "@mui/icons-material/LocalPhone";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 
-import { getPlaceDetails, getRouteInfo } from "./api";
+import { getPlaceDetails } from "./api";
 
-const EvStation = () => {
-  const evStationInfo = {
-    chargingStationLocation: {
-      latitude: 45.42202882338327,
-      longitude: -75.69767989999454,
-    },
-  };
-
+const EvStation = ({ lat, lng }) => {
   const [modalOpen, setModalOpen] = useState(false);
   const [stationPhoto, setStationPhoto] = useState(null);
   const [address, setAddress] = useState(null);
@@ -29,54 +22,44 @@ const EvStation = () => {
   const [stationPhoneNumber, setStationPhoneNumber] = useState(null);
   const [stationOpeningHours, setStationOpeningHours] = useState(null);
 
-  const handleClick = async () => {
-    const latlng =
-      evStationInfo.chargingStationLocation.latitude +
-      "," +
-      evStationInfo.chargingStationLocation.longitude;
+  useEffect(() => {
+    const fetchData = async () => {
+      const latlng = lat + "," + lng;
+      const placeDetails = await getPlaceDetails(latlng);
 
-    const placeDetails = await getPlaceDetails(latlng);
+      setStationName(placeDetails.name);
+      setStationPhoto(placeDetails.photo);
+      setAddress(placeDetails.address);
+      setStationPhoneNumber(placeDetails.phoneNumber);
+      if (placeDetails.openingHours) {
+        const todayDate = new Date();
+        setStationOpeningHours(
+          placeDetails.openingHours[(todayDate.getDay() + 6) % 7]
+        );
+      }
 
-    setStationName(placeDetails.name);
-    setStationPhoto(placeDetails.photo);
-    setAddress(placeDetails.address);
-    setStationPhoneNumber(placeDetails.phoneNumber);
-    if (placeDetails.openingHours) {
-      const todayDate = new Date();
-      setStationOpeningHours(
-        placeDetails.openingHours[(todayDate.getDay() + 6) % 7]
-      );
-    }
+      setModalOpen(true);
+    };
 
-    getRouteInfo(
-      45.42202882338327,
-      -75.69767989999454,
-      45.42542224499664,
-      -75.68866422246816
-    );
-    setModalOpen(true);
-  };
+    fetchData();
+  }, [lat, lng]);
 
   const handleClose = () => {
     setModalOpen(false);
   };
-  return (
-    <Box style={{ display: "flex" }}>
-      <Button variant="outlined" onClick={handleClick}>
-        open me
-      </Button>
 
+  return (
+   
       <Dialog
         hideBackdrop
         disableEnforceFocus
         style={{
-          position: "absolute",
-          right: 0,
-          top: 0,
+    
           width: "400px",
-          transform: "translateY(0)",
+          
         }}
         open={modalOpen}
+        onClose={handleClose}
         aria-labelledby="dialog-title"
         disableBackdropClick
         disableScrollLock={true}
@@ -130,16 +113,14 @@ const EvStation = () => {
             </DialogContentText>
           )}
         </DialogContent>
-        <DialogTitle>Trip Information</DialogTitle>
-        <DialogContent>You still have {} of range left</DialogContent>
-
+       
         <DialogActions>
           <Button onClick={handleClose} color="primary">
             Close
           </Button>
         </DialogActions>
       </Dialog>
-    </Box>
+    
   );
 };
 
