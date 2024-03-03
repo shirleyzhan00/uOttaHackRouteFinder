@@ -6,7 +6,6 @@ const getPlaceDetails = async (latlng) => {
   const addressResponse = await axios.get(
     `https://maps.googleapis.com/maps/api/geocode/json?latlng=${latlng}&key=${apiKey}`
   );
-  console.log("address", addressResponse);
   let place_id;
   for (let i = 0; i < addressResponse.data.results.length; i++) {
     if (
@@ -21,12 +20,10 @@ const getPlaceDetails = async (latlng) => {
   if (!place_id) {
     place_id = addressResponse.data.results[0].place_id;
   }
-  console.log('place_id', place_id)
 
   const placeResponse = await axios.get(
     `http://localhost:3001/place-details?place_id=${place_id}`
   );
-  console.log("place", placeResponse);
 
   const address = placeResponse.data.result.formatted_address
     ? placeResponse.data.result.formatted_address
@@ -65,10 +62,9 @@ const getRouteInfo = async (sourceLat, sourceLng, destLat, destLng) => {
     const response = await axios.get(
       `http://localhost:3001/route?sourceLat=${sourceLat}&sourceLng=${sourceLng}&destLat=${destLat}&destLng=${destLng}`
     );
-    console.log("route", response);
     const routeData = {
-      distanceMeters: response.data.routes[0].distance.value,
-      timeHour: response.data.routes[0].duration.value / 3600,
+      distanceMeters: response.data.routes[0].legs[0].distance.value,
+      timeHour: response.data.routes[0].legs[0].duration.value / 3600,
     };
     return routeData;
   } catch (err) {

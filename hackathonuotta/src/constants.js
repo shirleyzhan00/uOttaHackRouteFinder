@@ -1,0 +1,22 @@
+export const carInformation = [
+    { modelName: 'Tesla Model S', batteryCapacity: 100, powerOutput: 450 },
+    { modelName: 'Nissan Leaf', batteryCapacity: 40, powerOutput: 110 },
+    { modelName: 'Chevrolet Bolt EV', batteryCapacity: 66, powerOutput: 200 },
+    { modelName: 'BMW i3', batteryCapacity: 42, powerOutput: 170 },
+    { modelName: 'Audi e-tron', batteryCapacity: 95, powerOutput: 300 },
+    { modelName: 'Jaguar I-PACE', batteryCapacity: 90, powerOutput: 400 },
+    { modelName: 'Hyundai Kona Electric', batteryCapacity: 64, powerOutput: 150 },
+    { modelName: 'Kia Soul EV', batteryCapacity: 64, powerOutput: 201 },
+    { modelName: 'Volkswagen ID.4', batteryCapacity: 77, powerOutput: 201 },
+    { modelName: 'Ford Mustang Mach-E', batteryCapacity: 68, powerOutput: 266 },
+    { modelName: 'Porsche Taycan', batteryCapacity: 93.4, powerOutput: 375 },
+    { modelName: 'Mercedes-Benz EQC', batteryCapacity: 80, powerOutput: 408 },
+    { modelName: 'Rivian R1T', batteryCapacity: 135, powerOutput: 562 },
+    { modelName: 'Rivian R1S', batteryCapacity: 135, powerOutput: 562 },
+    { modelName: 'Lucid Air', batteryCapacity: 113, powerOutput: 480 },
+    { modelName: 'Honda Clarity Electric', batteryCapacity: 25.5, powerOutput: 161 },
+    { modelName: 'Mini Electric', batteryCapacity: 32.6, powerOutput: 181 },
+    { modelName: 'Smart EQ ForTwo', batteryCapacity: 17.6, powerOutput: 82 },
+    { modelName: 'Mazda MX-30', batteryCapacity: 35.5, powerOutput: 143 },
+    { modelName: 'Volvo XC40 Recharge', batteryCapacity: 78, powerOutput: 402 }
+];
